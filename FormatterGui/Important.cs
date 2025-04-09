@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace FormatterGui
 {
+
+
     internal class Important
-    {
+    { 
+        
+        public static string inputxlsx = "input.xlsx";
+        public static string linktxt = "link.txt";
+        public static string outputtxt = "output.txt";
+        public static string previoustxt = "previous.txt";
+        public static string sn = "sheet_name.txt";
+        public static string rg = "range.txt";
+        public static string cn = "column_names.txt";
+        public static string cnContent = "pont @image név íz m.e kínáló ár r.e r.min";
+        public static string ip = "image_path.txt";
+        public static string ipContent = "M:\\Marketing\\újság\\nagyker\\2025 friss képek\\";
         /*
          * Hol volt, hol nem volt, há volt egyszer egy ember, aki megjelent, satöbbi satöbbi, de az az ember nem tudom, ki látta. Senki nem látta. Senki. Én nem láttam, így nem is hittem el se. 
 

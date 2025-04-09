@@ -15,30 +15,30 @@ namespace FormatterGui
         public Form2()
         {
             InitializeComponent();
-            if (File.Exists("link.txt")) textBox1.Text = File.ReadAllText("link.txt");
-            textBox2.Text = File.ReadAllText("image_path.txt");
+            if (File.Exists(Important.linktxt)) textBox1.Text = File.ReadAllText(Important.linktxt);
+            textBox2.Text = File.ReadAllText(Important.ip);
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            string li = "link.txt";
+            
             //File.Create(sn);
-            using (var stream = File.Create(li))
+            using (var stream = File.Create(Important.linktxt))
             {
                 // Use stream
             }
-            using (var sw = new StreamWriter(li, true))
+            using (var sw = new StreamWriter(Important.linktxt, true))
             {
                 sw.Write(textBox1.Text);
             }
 
-            string ip = "image_path.txt";
+            
             //File.Create(sn);
-            using (var stream = File.Create(ip))
+            using (var stream = File.Create(Important.ip))
             {
                 // Use stream
             }
-            using (var sw = new StreamWriter(ip, true))
+            using (var sw = new StreamWriter(Important.ip, true))
             {
                 sw.Write(textBox2.Text);
             }

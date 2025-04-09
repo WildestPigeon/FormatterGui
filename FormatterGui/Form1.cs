@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Net;
 using Microsoft.Office.Interop.Excel;
 
+
 namespace FormatterGui
 {
     public partial class Form1 : Form
@@ -13,31 +14,31 @@ namespace FormatterGui
         {
             InitializeComponent();
             //check requied files
-            if (!File.Exists("column_names.txt"))
+            if (!File.Exists(Important.cn))
             {
-                using (var stream = File.Create("column_names.txt"))
+                using (var stream = File.Create(Important.cn))
                 {
                     //dont
                 }
-                using (var sw = new StreamWriter("column_names.txt", true))
+                using (var sw = new StreamWriter(Important.cn, true))
                 {
-                    sw.Write("pont @image név íz m.e kínáló ár r.e r.min");
+                    sw.Write(Important.cnContent);
                 }
             }
 
-            if (!File.Exists("image_path.txt"))
+            if (!File.Exists(Important.ip))
             {
-                using (var stream = File.Create("image_path.txt"))
+                using (var stream = File.Create(Important.ip))
                 {
                     //dont
                 }
-                using (var sw = new StreamWriter("image_path.txt", true))
+                using (var sw = new StreamWriter(Important.ip, true))
                 {
-                    sw.Write("M:\\Marketing\\újság\\nagyker\\2025 friss képek\\");
+                    sw.Write(Important.ipContent);
                 }
             }
 
-            if (!File.Exists("link.txt")) MessageBox.Show("Nincs beállított link, configban lehet beállítani", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!File.Exists(Important.linktxt)) MessageBox.Show("Nincs beállított link, configban lehet beállítani", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             if(!File.Exists("Format_xlsx.exe")) MessageBox.Show("Hiányzik a Format_xlsx.exe", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -46,19 +47,25 @@ namespace FormatterGui
 
         private void buttonFormat_Click(object sender, EventArgs e)
         {
-            if (checkBoxUpdate.Checked || !File.Exists("input.xlsx"))
+            if (checkBoxUpdate.Checked || !File.Exists(Important.inputxlsx))
             {
-                string link = File.ReadAllText("link.txt");
+                File.Delete(Important.inputxlsx);
+                string link = File.ReadAllText(Important.linktxt);
                 using (WebClient wc = new WebClient())
                 {
                     wc.DownloadFile
                     (
                         new System.Uri("https://docs.google.com/spreadsheets/d/" + link + "/export?exportFormat=xlsx"),
-                        "input.xlsx"
-
+                        Important.inputxlsx
+                        
                     );
+                    /*while (!File.Exists(Important.inputxlsx))
+                    {
+                        System.Threading.Thread.Sleep(500);
+                    }
+                    MessageBox.Show("ok");
                 }
-                
+                */
             }
 
             if (string.IsNullOrEmpty(comboBoxSheetName.Text) || string.IsNullOrEmpty(textBoxFirstRow.Text) || string.IsNullOrEmpty(textBoxLastRow.Text))
@@ -68,30 +75,30 @@ namespace FormatterGui
             {
                 //FORMAT
 
-                if (File.Exists("output.txt"))
+                if (File.Exists(Important.outputtxt))
                 {
-                    if (File.Exists ("previous.txt")) File.Delete("previous.txt");
-                    File.Copy("output.txt", "previous.txt");
+                    if (File.Exists (Important.previoustxt)) File.Delete(Important.previoustxt);
+                    File.Copy(Important.outputtxt, Important.previoustxt);
                 }
-                string sn = "sheet_name.txt";
+                
                 //File.Create(sn);
-                using (var stream = File.Create(sn))
+                using (var stream = File.Create(Important.sn))
                 {
                     //dont Use stream
                 }
-                using (var sw = new StreamWriter(sn, true))
+                using (var sw = new StreamWriter(Important.sn, true))
                 {
                     sw.Write(comboBoxSheetName.Text);
                 }
                 
 
-                string rg = "range.txt";
+                
                 //File.Create(rg);
-                using (var stream = File.Create(rg))
+                using (var stream = File.Create(Important.rg))
                 {
                     //dont Use stream
                 }
-                using (var sw = new StreamWriter(rg, true))
+                using (var sw = new StreamWriter(Important.rg, true))
                 {
                     sw.Write(textBoxFirstRow.Text+":"+textBoxLastRow.Text);
                 }
@@ -103,8 +110,8 @@ namespace FormatterGui
                 this.Visible = true;
 
                 Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                if (File.Exists("output.txt")){
-                    var fullPath = Path.GetFullPath("output.txt");
+                if (File.Exists(Important.outputtxt)){
+                    var fullPath = Path.GetFullPath(Important.outputtxt);
                     Workbook wb = excel.Workbooks.Open(fullPath);
                     excel.Visible = true;
                 }
