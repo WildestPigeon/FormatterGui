@@ -64,8 +64,9 @@ namespace FormatterGui
                         System.Threading.Thread.Sleep(500);
                     }
                     MessageBox.Show("ok");
+                    */
                 }
-                */
+                
             }
 
             if (string.IsNullOrEmpty(comboBoxSheetName.Text) || string.IsNullOrEmpty(textBoxFirstRow.Text) || string.IsNullOrEmpty(textBoxLastRow.Text))
