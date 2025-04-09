@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             buttonFormat = new Button();
             checkBoxUpdate = new CheckBox();
             comboBoxSheetName = new ComboBox();
@@ -158,6 +159,7 @@
             Controls.Add(comboBoxSheetName);
             Controls.Add(checkBoxUpdate);
             Controls.Add(buttonFormat);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(331, 444);
             Name = "Form1";
             Text = "Formatter";

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             buttonOk = new Button();
             button1 = new Button();
             textBox1 = new TextBox();
@@ -65,7 +66,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(479, 23);
             textBox1.TabIndex = 2;
-            textBox1.TextChanged += this.textBox1_TextChanged;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 
@@ -75,7 +76,7 @@
             label1.Size = new Size(62, 15);
             label1.TabIndex = 3;
             label1.Text = "Drive Link:";
-            label1.Click += this.label1_Click;
+            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -94,7 +95,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(479, 23);
             textBox2.TabIndex = 4;
-            textBox2.TextChanged += this.textBox2_TextChanged;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // Form2
             // 
@@ -107,10 +108,10 @@
             Controls.Add(textBox1);
             Controls.Add(button1);
             Controls.Add(buttonOk);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(300, 173);
             Name = "Form2";
             Text = "Config";
-            //Load += this.Form2_Load;
             ResumeLayout(false);
             PerformLayout();
         }
