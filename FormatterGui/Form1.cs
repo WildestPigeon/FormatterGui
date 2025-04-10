@@ -14,31 +14,31 @@ namespace FormatterGui
         {
             InitializeComponent();
             //check requied files
-            if (!File.Exists(Important.cn))
+            if (!File.Exists(Lit.cn))
             {
-                using (var stream = File.Create(Important.cn))
+                using (var stream = File.Create(Lit.cn))
                 {
                     //dont
                 }
-                using (var sw = new StreamWriter(Important.cn, true))
+                using (var sw = new StreamWriter(Lit.cn, true))
                 {
-                    sw.Write(Important.cnContent);
+                    sw.Write(Lit.cnContent);
                 }
             }
 
-            if (!File.Exists(Important.ip))
+            if (!File.Exists(Lit.ip))
             {
-                using (var stream = File.Create(Important.ip))
+                using (var stream = File.Create(Lit.ip))
                 {
                     //dont
                 }
-                using (var sw = new StreamWriter(Important.ip, true))
+                using (var sw = new StreamWriter(Lit.ip, true))
                 {
-                    sw.Write(Important.ipContent);
+                    sw.Write(Lit.ipContent);
                 }
             }
 
-            if (!File.Exists(Important.linktxt)) MessageBox.Show("Nincs beállított link, configban lehet beállítani", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!File.Exists(Lit.linktxt)) MessageBox.Show("Nincs beállított link, configban lehet beállítani", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             if(!File.Exists("Format_xlsx.exe")) MessageBox.Show("Hiányzik a Format_xlsx.exe", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -47,16 +47,16 @@ namespace FormatterGui
 
         private void buttonFormat_Click(object sender, EventArgs e)
         {
-            if (checkBoxUpdate.Checked || !File.Exists(Important.inputxlsx))
+            if (checkBoxUpdate.Checked || !File.Exists(Lit.inputxlsx))
             {
-                File.Delete(Important.inputxlsx);
-                string link = File.ReadAllText(Important.linktxt);
+                File.Delete(Lit.inputxlsx);
+                string link = File.ReadAllText(Lit.linktxt);
                 using (WebClient wc = new WebClient())
                 {
                     wc.DownloadFile
                     (
                         new System.Uri("https://docs.google.com/spreadsheets/d/" + link + "/export?exportFormat=xlsx"),
-                        Important.inputxlsx
+                        Lit.inputxlsx
                         
                     );
                     /*while (!File.Exists(Important.inputxlsx))
@@ -76,18 +76,18 @@ namespace FormatterGui
             {
                 //FORMAT
 
-                if (File.Exists(Important.outputtxt))
+                if (File.Exists(Lit.outputtxt))
                 {
-                    if (File.Exists (Important.previoustxt)) File.Delete(Important.previoustxt);
-                    File.Copy(Important.outputtxt, Important.previoustxt);
+                    if (File.Exists (Lit.previoustxt)) File.Delete(Lit.previoustxt);
+                    File.Copy(Lit.outputtxt, Lit.previoustxt);
                 }
                 
                 //File.Create(sn);
-                using (var stream = File.Create(Important.sn))
+                using (var stream = File.Create(Lit.sn))
                 {
                     //dont Use stream
                 }
-                using (var sw = new StreamWriter(Important.sn, true))
+                using (var sw = new StreamWriter(Lit.sn, true))
                 {
                     sw.Write(comboBoxSheetName.Text);
                 }
@@ -95,11 +95,11 @@ namespace FormatterGui
 
                 
                 //File.Create(rg);
-                using (var stream = File.Create(Important.rg))
+                using (var stream = File.Create(Lit.rg))
                 {
                     //dont Use stream
                 }
-                using (var sw = new StreamWriter(Important.rg, true))
+                using (var sw = new StreamWriter(Lit.rg, true))
                 {
                     sw.Write(textBoxFirstRow.Text+":"+textBoxLastRow.Text);
                 }
@@ -111,8 +111,8 @@ namespace FormatterGui
                 this.Visible = true;
 
                 Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                if (File.Exists(Important.outputtxt)){
-                    var fullPath = Path.GetFullPath(Important.outputtxt);
+                if (File.Exists(Lit.outputtxt)){
+                    var fullPath = Path.GetFullPath(Lit.outputtxt);
                     Workbook wb = excel.Workbooks.Open(fullPath);
                     excel.Visible = true;
                 }

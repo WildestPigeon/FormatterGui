@@ -8,7 +8,7 @@ namespace FormatterGui
 {
 
 
-    internal class Important
+    internal class Lit
     { 
         
         public static string inputxlsx = "input.xlsx";
