@@ -38,6 +38,8 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
+            progressBar = new ProgressBar();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -144,12 +146,31 @@
             label2.TabIndex = 10;
             label2.Text = "Első, utolsó sor:";
             // 
+            // progressBar
+            // 
+            progressBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            progressBar.Location = new Point(11, 209);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(292, 23);
+            progressBar.TabIndex = 11;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(42, 235);
+            label3.Name = "label3";
+            label3.Size = new Size(38, 15);
+            label3.TabIndex = 12;
+            label3.Text = "label3";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(315, 405);
+            Controls.Add(label3);
+            Controls.Add(progressBar);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(pictureBox1);
@@ -179,5 +200,7 @@
         private PictureBox pictureBox1;
         private Label label1;
         private Label label2;
+        private ProgressBar progressBar;
+        private Label label3;
     }
 }

@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing.Text;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Office.Interop.Excel;
+using static System.Windows.Forms.LinkLabel;
 
 namespace FormatterGui
 {
 
 
     internal class Lit
-    { 
-        
+    {
+
         public static string inputxlsx = "input.xlsx";
         public static string linktxt = "link.txt";
         public static string outputtxt = "output.txt";
@@ -21,6 +27,9 @@ namespace FormatterGui
         public static string cnContent = "pont @image név íz m.e kínáló ár r.e r.min";
         public static string ip = "image_path.txt";
         public static string ipContent = "M:\\Marketing\\újság\\nagyker\\2025 friss képek\\";
+
+
+
         /*
          * Hol volt, hol nem volt, há volt egyszer egy ember, aki megjelent, satöbbi satöbbi, de az az ember nem tudom, ki látta. Senki nem látta. Senki. Én nem láttam, így nem is hittem el se. 
 
@@ -55,4 +64,65 @@ namespace FormatterGui
            Na az biztos, hogy ha ilyeneket csinálnak, akkor nagyon rossz vége lesz. Itten, ide figyeljél, itten az emberek hullanak, mint a legyek. Csak elhiszem, majd majd, tulajdonképpen elhiszem, létezik, lehet.
          */
     }
+    public class Func
+    {
+            
+
+        
+        public void dlInput(object sender, EventArgs e, Form1 a)
+        {
+                
+            string link = File.ReadAllText(Lit.linktxt);
+            WebClient wc = new WebClient();
+                
+                    
+                    
+            wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(a.ProgressChanged);
+                    
+            wc.DownloadFileAsync
+            (
+                new System.Uri("https://docs.google.com/spreadsheets/d/" + link + "/export?exportFormat=xlsx"),
+                Lit.inputxlsx
+                        
+            );
+            
+            wc.DownloadFileCompleted += new AsyncCompletedEventHandler(a.Completed);
+
+        }
+
+        
+
+        
+
+
+        public void format(Form1 a)
+        {
+            if (File.Exists(Lit.outputtxt))
+            {
+                if (File.Exists(Lit.previoustxt)) File.Delete(Lit.previoustxt);
+                File.Copy(Lit.outputtxt, Lit.previoustxt);
+            }
+
+            a.createFormatFiles();
+
+            Process process = Process.Start("Format_xlsx.exe");
+            int id = process.Id;
+            Process tempProc = Process.GetProcessById(id);
+            //a.Visible = false;
+            tempProc.WaitForExit();
+           //a.Visible = true;
+
+            Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
+            if (File.Exists(Lit.outputtxt))
+            {
+                var fullPath = Path.GetFullPath(Lit.outputtxt);
+                Workbook wb = excel.Workbooks.Open(fullPath);
+                excel.Visible = true;
+            }
+        }
+    }
+
+    
+
+
 }

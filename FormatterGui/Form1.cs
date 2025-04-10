@@ -4,7 +4,9 @@ using System.Security.Policy;
 using System.Diagnostics;
 using System.Net;
 using Microsoft.Office.Interop.Excel;
-
+using FormatterGui;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace FormatterGui
 {
@@ -47,75 +49,21 @@ namespace FormatterGui
 
         private void buttonFormat_Click(object sender, EventArgs e)
         {
-            if (checkBoxUpdate.Checked || !File.Exists(Lit.inputxlsx))
-            {
-                File.Delete(Lit.inputxlsx);
-                string link = File.ReadAllText(Lit.linktxt);
-                using (WebClient wc = new WebClient())
-                {
-                    wc.DownloadFile
-                    (
-                        new System.Uri("https://docs.google.com/spreadsheets/d/" + link + "/export?exportFormat=xlsx"),
-                        Lit.inputxlsx
-                        
-                    );
-                    /*while (!File.Exists(Important.inputxlsx))
-                    {
-                        System.Threading.Thread.Sleep(500);
-                    }
-                    MessageBox.Show("ok");
-                    */
-                }
-                
-            }
+            Func sajt = new Func();
+            
 
             if (string.IsNullOrEmpty(comboBoxSheetName.Text) || string.IsNullOrEmpty(textBoxFirstRow.Text) || string.IsNullOrEmpty(textBoxLastRow.Text))
             {
                 MessageBox.Show("Üres adatmezõk", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else
+            }
+            else
             {
-                //FORMAT
-
-                if (File.Exists(Lit.outputtxt))
+                if (checkBoxUpdate.Checked || !File.Exists(Lit.inputxlsx))
                 {
-                    if (File.Exists (Lit.previoustxt)) File.Delete(Lit.previoustxt);
-                    File.Copy(Lit.outputtxt, Lit.previoustxt);
+                    File.Delete(Lit.inputxlsx);
+                    sajt.dlInput(sender, e, this);
                 }
-                
-                //File.Create(sn);
-                using (var stream = File.Create(Lit.sn))
-                {
-                    //dont Use stream
-                }
-                using (var sw = new StreamWriter(Lit.sn, true))
-                {
-                    sw.Write(comboBoxSheetName.Text);
-                }
-                
-
-                
-                //File.Create(rg);
-                using (var stream = File.Create(Lit.rg))
-                {
-                    //dont Use stream
-                }
-                using (var sw = new StreamWriter(Lit.rg, true))
-                {
-                    sw.Write(textBoxFirstRow.Text+":"+textBoxLastRow.Text);
-                }
-                Process process = Process.Start("Format_xlsx.exe");
-                int id = process.Id;
-                Process tempProc = Process.GetProcessById(id);
-                this.Visible = false;
-                tempProc.WaitForExit();
-                this.Visible = true;
-
-                Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                if (File.Exists(Lit.outputtxt)){
-                    var fullPath = Path.GetFullPath(Lit.outputtxt);
-                    Workbook wb = excel.Workbooks.Open(fullPath);
-                    excel.Visible = true;
-                }
+                else sajt.format(this);
 
             }
 
@@ -158,6 +106,44 @@ namespace FormatterGui
             frm.FormClosing += delegate { this.Show(); };
             frm.Show();
             this.Hide();
+        }
+
+        public void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar.Value = e.ProgressPercentage;
+            label3.Text = e.ProgressPercentage.ToString();
+        }
+
+        public void Completed(object sender, AsyncCompletedEventArgs e)
+        {
+            Func sajt = new Func();
+            sajt.format(this);
+            
+        }
+
+        public void createFormatFiles()
+        {
+            //File.Create(sn);
+            using (var stream = File.Create(Lit.sn))
+            {
+                //dont Use stream
+            }
+            using (var sw = new StreamWriter(Lit.sn, true))
+            {
+                sw.Write(comboBoxSheetName.Text);
+            }
+
+
+
+            //File.Create(rg);
+            using (var stream = File.Create(Lit.rg))
+            {
+                //dont Use stream
+            }
+            using (var sw = new StreamWriter(Lit.rg, true))
+            {
+                sw.Write(textBoxFirstRow.Text + ":" + textBoxLastRow.Text);
+            }
         }
     }
 }
