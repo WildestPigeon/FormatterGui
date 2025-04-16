@@ -32,14 +32,15 @@
             buttonFormat = new Button();
             checkBoxUpdate = new CheckBox();
             comboBoxSheetName = new ComboBox();
-            textBoxFirstRow = new TextBox();
-            textBoxLastRow = new TextBox();
             buttonConfig = new Button();
             pictureBox1 = new PictureBox();
             label1 = new Label();
-            label2 = new Label();
             progressBar = new ProgressBar();
-            label3 = new Label();
+            label4 = new Label();
+            textBoxPage = new TextBox();
+            Test = new Button();
+            label5 = new Label();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -79,28 +80,6 @@
             comboBoxSheetName.TabIndex = 3;
             comboBoxSheetName.SelectedIndexChanged += comboBoxSheetName_SelectedIndexChanged;
             // 
-            // textBoxFirstRow
-            // 
-            textBoxFirstRow.Anchor = AnchorStyles.Bottom;
-            textBoxFirstRow.Location = new Point(160, 308);
-            textBoxFirstRow.MaximumSize = new Size(63, 23);
-            textBoxFirstRow.MinimumSize = new Size(63, 23);
-            textBoxFirstRow.Name = "textBoxFirstRow";
-            textBoxFirstRow.Size = new Size(63, 23);
-            textBoxFirstRow.TabIndex = 4;
-            textBoxFirstRow.TextChanged += textBoxFirstRow_TextChanged;
-            // 
-            // textBoxLastRow
-            // 
-            textBoxLastRow.Anchor = AnchorStyles.Bottom;
-            textBoxLastRow.Location = new Point(240, 308);
-            textBoxLastRow.MaximumSize = new Size(63, 23);
-            textBoxLastRow.MinimumSize = new Size(63, 23);
-            textBoxLastRow.Name = "textBoxLastRow";
-            textBoxLastRow.Size = new Size(63, 23);
-            textBoxLastRow.TabIndex = 5;
-            textBoxLastRow.TextChanged += textBoxLastRow_TextChanged;
-            // 
             // buttonConfig
             // 
             buttonConfig.Anchor = AnchorStyles.Bottom;
@@ -119,7 +98,7 @@
             pictureBox1.ErrorImage = null;
             pictureBox1.Image = Properties.Resources.NOK;
             pictureBox1.InitialImage = null;
-            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Location = new Point(17, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(277, 203);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -136,16 +115,6 @@
             label1.TabIndex = 9;
             label1.Text = "Munkalap:";
             // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Bottom;
-            label2.AutoSize = true;
-            label2.Location = new Point(65, 311);
-            label2.Name = "label2";
-            label2.Size = new Size(89, 15);
-            label2.TabIndex = 10;
-            label2.Text = "Első, utolsó sor:";
-            // 
             // progressBar
             // 
             progressBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -154,14 +123,58 @@
             progressBar.Size = new Size(292, 23);
             progressBar.TabIndex = 11;
             // 
-            // label3
+            // label4
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(42, 235);
-            label3.Name = "label3";
-            label3.Size = new Size(38, 15);
-            label3.TabIndex = 12;
-            label3.Text = "label3";
+            label4.Anchor = AnchorStyles.Bottom;
+            label4.AutoSize = true;
+            label4.Location = new Point(116, 311);
+            label4.Name = "label4";
+            label4.RightToLeft = RightToLeft.No;
+            label4.Size = new Size(38, 15);
+            label4.TabIndex = 13;
+            label4.Text = "Oldal:";
+            // 
+            // textBoxPage
+            // 
+            textBoxPage.Anchor = AnchorStyles.Bottom;
+            textBoxPage.Location = new Point(160, 308);
+            textBoxPage.MaximumSize = new Size(63, 23);
+            textBoxPage.MinimumSize = new Size(63, 23);
+            textBoxPage.Name = "textBoxPage";
+            textBoxPage.Size = new Size(63, 23);
+            textBoxPage.TabIndex = 14;
+            textBoxPage.TextChanged += textBoxPage_TextChanged;
+            // 
+            // Test
+            // 
+            Test.Anchor = AnchorStyles.Bottom;
+            Test.Location = new Point(229, 308);
+            Test.Name = "Test";
+            Test.Size = new Size(38, 23);
+            Test.TabIndex = 15;
+            Test.Text = "Test";
+            Test.UseVisualStyleBackColor = true;
+            Test.Click += Test_Click;
+            // 
+            // label5
+            // 
+            label5.Anchor = AnchorStyles.Bottom;
+            label5.AutoSize = true;
+            label5.Location = new Point(273, 305);
+            label5.Name = "label5";
+            label5.Size = new Size(21, 15);
+            label5.TabIndex = 16;
+            label5.Text = "els";
+            // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.Bottom;
+            label6.AutoSize = true;
+            label6.Location = new Point(273, 320);
+            label6.Name = "label6";
+            label6.Size = new Size(18, 15);
+            label6.TabIndex = 17;
+            label6.Text = "ut";
             // 
             // Form1
             // 
@@ -169,21 +182,23 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(315, 405);
-            Controls.Add(label3);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(Test);
+            Controls.Add(textBoxPage);
+            Controls.Add(label4);
             Controls.Add(progressBar);
-            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Controls.Add(buttonConfig);
-            Controls.Add(textBoxLastRow);
-            Controls.Add(textBoxFirstRow);
             Controls.Add(comboBoxSheetName);
             Controls.Add(checkBoxUpdate);
             Controls.Add(buttonFormat);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(331, 444);
             Name = "Form1";
-            Text = "Formatter";
+            Text = "Formatter: Fat Rat Edition";
+            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -193,14 +208,15 @@
 
         private Button buttonFormat;
         private CheckBox checkBoxUpdate;
-        private ComboBox comboBoxSheetName;
-        private TextBox textBoxFirstRow;
-        private TextBox textBoxLastRow;
+        public ComboBox comboBoxSheetName;
         private Button buttonConfig;
         private PictureBox pictureBox1;
         private Label label1;
-        private Label label2;
         private ProgressBar progressBar;
-        private Label label3;
+        private Label label4;
+        public TextBox textBoxPage;
+        private Button Test;
+        public Label label5;
+        public Label label6;
     }
 }

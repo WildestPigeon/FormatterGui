@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <Content Include="bin\errorcats\Pop cat closed.ico" />
+    <Content Include="bin\NOK.png" />
+    <Content Include="bin\OK.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,8 +5,10 @@ using System.Diagnostics;
 using System.Drawing.Text;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using static System.Windows.Forms.LinkLabel;
 
@@ -104,6 +106,7 @@ namespace FormatterGui
             }
 
             a.createFormatFiles();
+            
 
             Process process = Process.Start("Format_xlsx.exe");
             int id = process.Id;
@@ -120,6 +123,86 @@ namespace FormatterGui
                 excel.Visible = true;
             }
         }
+
+
+        public void pageFind(string shit, string page, Form1 a, bool f)
+        {
+            string filePath = Path.GetFullPath(Lit.inputxlsx);
+            string expression = page;
+
+            var excelApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook workbook = null;
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = null;
+            Microsoft.Office.Interop.Excel.Range usedRange = null;
+
+            try
+            {
+                workbook = excelApp.Workbooks.Open(filePath);
+                worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[shit];
+
+                usedRange = worksheet.UsedRange;
+                int rowCount = usedRange.Rows.Count;
+
+                int firstMatchRow = -1;
+                int lastMatchRow = -1;
+
+                for (int row = 1; row <= rowCount; row++)
+                {
+                    var cell = (Microsoft.Office.Interop.Excel.Range)worksheet.Cells[row, 1];
+                    string cellValue = cell.Value2?.ToString(); // Safer and faster than .Text
+
+                    if (cellValue == expression)
+                    {
+                        if (firstMatchRow == -1)
+                            firstMatchRow = row;
+
+                        lastMatchRow = row;
+                    }
+
+                    // 🔥 Always release cell object
+                    Marshal.ReleaseComObject(cell);
+                }
+
+                if (firstMatchRow != -1)
+                {
+                    a.label5.Text = firstMatchRow.ToString();
+                    a.label6.Text = lastMatchRow.ToString();
+
+                    using (var stream = File.Create(Lit.rg)) { }
+                    using (var sw = new StreamWriter(Lit.rg, true))
+                    {
+                        sw.Write(firstMatchRow + ":" + lastMatchRow);
+                    }
+                    if (f) format(a);
+                }
+                else
+                {
+                    MessageBox.Show("no match");
+                }
+            }
+            finally
+            {
+                if (usedRange != null) Marshal.ReleaseComObject(usedRange);
+                if (worksheet != null) Marshal.ReleaseComObject(worksheet);
+                if (workbook != null)
+                {
+                    workbook.Close(false);
+                    Marshal.ReleaseComObject(workbook);
+                }
+
+                if (excelApp != null)
+                {
+                    excelApp.Quit();
+                    Marshal.ReleaseComObject(excelApp);
+                }
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
     }
 
     

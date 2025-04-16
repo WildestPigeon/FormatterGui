@@ -42,7 +42,7 @@ namespace FormatterGui
 
             if (!File.Exists(Lit.linktxt)) MessageBox.Show("Nincs beállított link, configban lehet beállítani", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            if(!File.Exists("Format_xlsx.exe")) MessageBox.Show("Hiányzik a Format_xlsx.exe", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!File.Exists("Format_xlsx.exe")) MessageBox.Show("Hiányzik a Format_xlsx.exe", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
 
         }
@@ -50,48 +50,46 @@ namespace FormatterGui
         private void buttonFormat_Click(object sender, EventArgs e)
         {
             Func sajt = new Func();
+
+
+            if (textBoxPage.Text != "")
+            {
+                if (comboBoxSheetName.Text != "")
+                {
+
+                    if (checkBoxUpdate.Checked || !File.Exists(Lit.inputxlsx))
+                    {
+                        File.Delete(Lit.inputxlsx);
+                        sajt.dlInput(sender, e, this);
+                    }
+                    else sajt.pageFind(comboBoxSheetName.Text, textBoxPage.Text, this, true); ;
+                }
+                else MessageBox.Show("Megadott munkalap nem lehet null");
+            }
+            else MessageBox.Show("Megadott oldal nem lehet null");
+
             
 
-            if (string.IsNullOrEmpty(comboBoxSheetName.Text) || string.IsNullOrEmpty(textBoxFirstRow.Text) || string.IsNullOrEmpty(textBoxLastRow.Text))
-            {
-                MessageBox.Show("Üres adatmezõk", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                if (checkBoxUpdate.Checked || !File.Exists(Lit.inputxlsx))
-                {
-                    File.Delete(Lit.inputxlsx);
-                    sajt.dlInput(sender, e, this);
-                }
-                else sajt.format(this);
-
-            }
+            //}
 
 
 
         }
 
-        private void textBoxLastRow_TextChanged(object sender, EventArgs e)
+        private void textBoxPage_TextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(comboBoxSheetName.Text) && !string.IsNullOrEmpty(textBoxFirstRow.Text) && !string.IsNullOrEmpty(textBoxLastRow.Text))
+            if (!string.IsNullOrEmpty(comboBoxSheetName.Text) && !string.IsNullOrEmpty(textBoxPage.Text))
             {
                 pictureBox1.Image = Properties.Resources.OK;
             }
             else pictureBox1.Image = Properties.Resources.NOK;
         }
 
-        private void textBoxFirstRow_TextChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(comboBoxSheetName.Text) && !string.IsNullOrEmpty(textBoxFirstRow.Text) && !string.IsNullOrEmpty(textBoxLastRow.Text))
-            {
-                pictureBox1.Image = Properties.Resources.OK;
-            }
-            else pictureBox1.Image = Properties.Resources.NOK;
-        }
+        
 
         private void comboBoxSheetName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(comboBoxSheetName.Text) && !string.IsNullOrEmpty(textBoxFirstRow.Text) && !string.IsNullOrEmpty(textBoxLastRow.Text))
+            if (!string.IsNullOrEmpty(comboBoxSheetName.Text) && !string.IsNullOrEmpty(textBoxPage.Text))
             {
                 pictureBox1.Image = Properties.Resources.OK;
             }
@@ -111,14 +109,13 @@ namespace FormatterGui
         public void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar.Value = e.ProgressPercentage;
-            label3.Text = e.ProgressPercentage.ToString();
         }
 
         public void Completed(object sender, AsyncCompletedEventArgs e)
         {
             Func sajt = new Func();
             sajt.format(this);
-            
+
         }
 
         public void createFormatFiles()
@@ -132,18 +129,29 @@ namespace FormatterGui
             {
                 sw.Write(comboBoxSheetName.Text);
             }
-
-
-
-            //File.Create(rg);
-            using (var stream = File.Create(Lit.rg))
-            {
-                //dont Use stream
-            }
-            using (var sw = new StreamWriter(Lit.rg, true))
-            {
-                sw.Write(textBoxFirstRow.Text + ":" + textBoxLastRow.Text);
-            }
+         
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Test_Click(object sender, EventArgs e)
+        {
+            if (textBoxPage.Text != "")
+            {
+                if (comboBoxSheetName.Text != "")
+                {
+                    Func sajt = new Func();
+                    sajt.pageFind(comboBoxSheetName.Text, textBoxPage.Text, this, false);
+                }
+                else MessageBox.Show("Megadott munkalap nem lehet null");
+            }
+            else MessageBox.Show("Megadott oldal nem lehet null");
+            
+        }
+
+        
     }
 }
