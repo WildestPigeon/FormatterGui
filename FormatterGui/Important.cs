@@ -104,7 +104,7 @@ namespace FormatterGui
                 if (File.Exists(Lit.previoustxt)) File.Delete(Lit.previoustxt);
                 File.Copy(Lit.outputtxt, Lit.previoustxt);
             }
-
+            
             a.createFormatFiles();
             
 

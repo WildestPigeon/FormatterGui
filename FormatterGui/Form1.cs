@@ -114,7 +114,7 @@ namespace FormatterGui
         public void Completed(object sender, AsyncCompletedEventArgs e)
         {
             Func sajt = new Func();
-            sajt.format(this);
+            sajt.pageFind(comboBoxSheetName.Text, textBoxPage.Text, this, true);
 
         }
 
